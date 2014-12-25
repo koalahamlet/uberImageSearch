@@ -7,17 +7,9 @@ import java.io.Serializable;
 
 public class SearchFilter implements Serializable {
 
-    private static final long serialVersionUID = -3229967888329380678L;
+    private String size, color, type, site;
 
-    private String size;
-    private String color;
-    private String type;
-    private String site;
-
-
-    public SearchFilter() {
-
-    }
+    public SearchFilter() {}
 
     public String getSize() {
         return size;

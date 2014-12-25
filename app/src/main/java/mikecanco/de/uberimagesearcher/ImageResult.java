@@ -4,28 +4,29 @@ package mikecanco.de.uberimagesearcher;
  * Created by koalahamlet on 12/25/14.
  */
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ImageResult implements Serializable {
-    private static final long serialVersionUID = -6821779976976120547L;
     private String fullUrl;
     private String thumbUrl;
 
     public ImageResult(JSONObject json){
         try {
             this.fullUrl = json.getString("url");
+            Log.d("url", fullUrl);
             this.thumbUrl = json.getString("tbUrl");
         } catch (JSONException e) {
+            Log.d("danger", "nothing here");
             this.fullUrl = null;
             this.thumbUrl = null;
         }
     }
-
 
     public String getFullUrl() {
         return fullUrl;
@@ -50,8 +51,6 @@ public class ImageResult implements Serializable {
                 e.printStackTrace();
             }
         }
-
-
         return results;
     }
 

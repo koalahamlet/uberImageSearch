@@ -1,92 +1,57 @@
 package mikecanco.de.uberimagesearcher;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 public class FilterActivity extends Activity {
 
-    Button bSubmit;
-    EditText etWebsite;
-    Spinner sprColor;
-    Spinner sprType;
-    Spinner sprSize;
-    CheckBox cbColor;
-    CheckBox cbType;
-    CheckBox cbSize;
-    String sColor;
-    String sType;
-    String sSize;
-    String sWebsite;
-
+    @InjectView(R.id.bSubmit) Button bSubmit;
+    @InjectView(R.id.etSiteFilter) EditText etWebsite;
+    @InjectView(R.id.sprColorFilter) Spinner sprColor;
+    @InjectView(R.id.sprImageType) Spinner sprType;
+    @InjectView(R.id.sprImageSize) Spinner sprSize;
+    String sColor, sType, sSize, sWebsite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-
-        initializeViews();
-
-        final SearchFilter sfIsTheBest = new SearchFilter();
-
-
-        bSubmit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-                sColor=sprColor.getSelectedItem().toString();
-                sfIsTheBest.setColor(sColor);
-
-
-
-                sType=sprType.getSelectedItem().toString();
-                sfIsTheBest.setType(sType);
-
-
-
-                sSize=sprSize.getSelectedItem().toString();
-                sfIsTheBest.setSize(sSize);
-
-
-                if(!(etWebsite.getText().toString()).isEmpty()){
-                    sWebsite = etWebsite.getText().toString();
-                    sWebsite.replaceAll("\\s+","");
-                    sfIsTheBest.setSite(sWebsite);
-                }
-
-                Intent i = new Intent();
-                i.putExtra("filter", sfIsTheBest);
-                setResult(RESULT_OK, i);
-                finish();
-
-
-            }
-        });
+        ButterKnife.inject(this);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-    private void initializeViews() {
+    @OnClick(R.id.bSubmit)
+    public void clickSubmit() {
+        final SearchFilter sfilter = new SearchFilter();
 
-        bSubmit = (Button) findViewById(R.id.bSubmit);
-        etWebsite = (EditText) findViewById(R.id.etSiteFilter);
-        sprColor = (Spinner) findViewById(R.id.sprColorFilter);
-        sprType = (Spinner) findViewById(R.id.sprImageType);
-        sprSize = (Spinner) findViewById(R.id.sprImageSize);
+        sColor=sprColor.getSelectedItem().toString();
+        sfilter.setColor(sColor);
 
+        sType=sprType.getSelectedItem().toString();
+        sfilter.setType(sType);
 
+        sSize=sprSize.getSelectedItem().toString();
+        sfilter.setSize(sSize);
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etWebsite.getWindowToken(), 0);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if(!(etWebsite.getText().toString()).isEmpty()){
+            sWebsite = etWebsite.getText().toString();
+            sWebsite.replaceAll("\\s+","");
+            sfilter.setSite(sWebsite);
+        }
+
+        Intent i = new Intent();
+        i.putExtra("filter", sfilter);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
 }
