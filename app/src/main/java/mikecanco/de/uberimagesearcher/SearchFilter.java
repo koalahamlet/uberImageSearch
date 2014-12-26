@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class SearchFilter implements Serializable {
 
-    private String size, color, type, site;
+    private String size, color, type, site = "";
 
     public SearchFilter() {}
 

@@ -24,6 +24,7 @@ public class ImageDisplayActivity extends Activity {
         ButterKnife.inject(this);
         image = (ImageResult) getIntent().getSerializableExtra("result");
         ivImage.setImageUrl(image.getFullUrl());
+
     }
 
     @OnClick(R.id.bSend)
